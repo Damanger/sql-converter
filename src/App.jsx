@@ -40,7 +40,7 @@ function App() {
             <span></span>
             <span></span>
         </div>
-        <div className="scroll-watcher"></div>clea
+        <div className="scroll-watcher"></div>
         <div className="App">
             <InputTabla onCrearTabla={handleCrearTabla} />
             {mostrarTabla && <Tabla nombreTabla={nombreTabla} columnas={columnas} />}
