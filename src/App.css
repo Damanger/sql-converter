@@ -1,38 +1,84 @@
-.App {
-  text-align: center;
+.wrap span {
+position: fixed;
+bottom: -180px;
+height: 50px;
+width: 50px;
+z-index: -1;
+background-color: #000000;
+box-shadow: 0 0 50px #00ff5e, 0 0 100px #00ff5e, 0 0 150px #00ff5e, 0 0 200px #00ff5e;
+animation: animate 10s linear infinite;
+}
+.wrap span:nth-child(1) {
+left: 60px;
+animation-delay: 0.6s;
+}
+.wrap span:nth-child(2) {
+left: 10%;
+animation-delay: 3s;
+width: 60px;
+height: 60px;
+}
+.wrap span:nth-child(3) {
+left: 20%;
+animation-delay: 2s;
+}
+.wrap span:nth-child(4) {
+left: 30%;
+animation-delay: 5s;
+width: 80px;
+height: 80px;
+}
+.wrap span:nth-child(5) {
+left: 40%;
+animation-delay: 1s;
+}
+.wrap span:nth-child(6) {
+left: 50%;
+animation-delay: 7s;
+}
+.wrap span:nth-child(7) {
+left: 60%;
+animation-delay: 6s;
+width: 100px;
+height: 100px;
+}
+.wrap span:nth-child(8) {
+left: 70%;
+animation-delay: 8s;
+}
+.wrap span:nth-child(9) {
+left: 80%;
+animation-delay: 6s;
+width: 90px;
+height: 90px;
+}
+.wrap span:nth-child(10) {
+left: 90%;
+animation-delay: 4s;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+@keyframes animate {
+0% {
+  transform: translateY(0);
+  opacity: 0.3;
+}
+80% {
+  opacity: .1;
+}
+100% {
+  transform: translateY(-800px) rotate(360deg);
+  opacity: 0;
+}
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.scroll-watcher {
+  background-color: #30ff00;
+  height: 2px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0; /* Por defecto, la barra de desplazamiento está oculta */
+  z-index: 1000;
+  transition: width 0.3s ease; /* Agregamos una transición para suavizar el cambio de tamaño */
+  border-radius: 0.25rem;
 }
