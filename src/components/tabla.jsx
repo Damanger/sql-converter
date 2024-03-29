@@ -54,6 +54,8 @@ const Tabla = ({ nombreTabla, columnas }) => {
     };
 
     let nuevaSentenciaSQL = '';
+    let exe = '';
+
     const handleAgregarFila = () => {
         if (filas.length < 5) {
             const nuevaFila = {
@@ -99,6 +101,19 @@ const Tabla = ({ nombreTabla, columnas }) => {
         }
         if (sentenciaSQL.toLowerCase().startsWith('everything')) {
             nuevaSentenciaSQL = `SELECT * FROM ${nombreTabla}`;
+            setResultadoSQL(nuevaSentenciaSQL); // Actualizar el estado con la sentencia SQL generada
+    
+            // Construir el diccionario con los datos de la tabla
+            const tablaDict = {};
+            nuevosHeaders.forEach((header, index) => {
+                tablaDict[header] = filas.map(fila => fila.datos[index]);
+            });
+    
+            const jsonString = JSON.stringify(tablaDict, null, 2);
+            const sqlString = jsonString
+                .replace(/[{}]/g, '') // Reemplaza tanto '{' como '}' por nada
+                .replace(/\n/g, ''); // Reemplaza los saltos de línea por nada
+            setSQL(sqlString);
         }
         else if(sentenciaSQL.toLowerCase().startsWith('max')){
             // Obtener el nombre de la columna
@@ -108,15 +123,18 @@ const Tabla = ({ nombreTabla, columnas }) => {
                 nuevaSentenciaSQL = `SELECT MAX(${columnName}) FROM ${nombreTabla}`;
                 const columnData = getColumnData(columnName);
                 const maxValue = Math.max(...columnData);
-                const exe = `El valor máximo de ${columnName} es: ${maxValue}`;
-                setSQL(exe);
+                exe = `El valor máximo de ${columnName} es: ${maxValue}`;
+                setResultadoSQL(nuevaSentenciaSQL); // Actualizar el estado con la sentencia SQL generada
+                setSQL(exe); // Mostrar el resultado de la sentencia SQL
             } else {
                 // Si la columna no existe, muestra un mensaje de error
                 nuevaSentenciaSQL = 'Columna no encontrada';
+                setResultadoSQL(nuevaSentenciaSQL); // Actualizar el estado con la sentencia SQL generada
+                setSQL(''); // Limpiar el estado de SQL
             }
         }
-        setResultadoSQL(nuevaSentenciaSQL); // Actualizar el estado con la sentencia SQL generada
     };
+    
 
     const getColumnData = (columnName) => {
         const columnIndex = nuevosHeaders.indexOf(columnName);
@@ -180,11 +198,11 @@ const Tabla = ({ nombreTabla, columnas }) => {
             </div>
             <div style={{margin:'2rem'}}>
                 <h3 className={styles.tableContainer}>SQL sentence</h3>
-                <textarea value={resultadoSQL} readOnly placeholder="Resultado SQL" style={{ width: '20rem', height: '10rem', resize: 'none', display:'flex', textAlign:'center', justifyContent:'center'}}></textarea>
+                <textarea value={resultadoSQL} readOnly placeholder="Resultado SQL" style={{ width: '20rem', height: '3rem', resize: 'none', display:'flex', textAlign:'center', justifyContent:'center'}}></textarea>
             </div>
             <div style={{margin:'2rem'}}>
                 <h3 className={styles.tableContainer}>SQL result</h3>
-                <textarea value={sql} readOnly placeholder="Sentencia SQL" style={{ width: '20rem', height: '5rem', resize: 'none', display:'flex', textAlign:'center' }}></textarea>
+                <textarea value={sql} readOnly placeholder="Sentencia SQL" style={{ width: '20rem', height: '8rem', resize: 'none', display:'flex', textAlign:'center' }}></textarea>
             </div>
         </div>
     );
