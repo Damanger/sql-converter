@@ -40,8 +40,8 @@ th {
     display: inline-block;
     text-transform: uppercase;
     font-weight: bold;
-    font-size: 1em;
-    min-width: 1em;
-    line-height: 1em;
+    font-size: 0.75rem;
+    min-width: 1rem;
+    line-height: 1rem;
     user-select: none;
 }
