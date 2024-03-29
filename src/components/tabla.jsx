@@ -6,7 +6,7 @@ const Tabla = ({ nombreTabla, columnas }) => {
     const [nuevosHeaders, setNuevosHeaders] = useState(['id', ...columnas]); // Modificación aquí
     const [filas, setFilas] = useState([
         // Aquí puedes inicializar las filas si lo deseas
-        { datos: ['', '', ''] }
+        { datos: ['dato1', 'dato2', 'dato3'] }
     ]);
     const [inputHabilitado, setInputHabilitado] = useState(false); // Nuevo estado para controlar si el input está habilitado o no
     const [sentenciaSQL, setSentenciaSQL] = useState(''); // Nuevo estado para almacenar la sentencia SQL
