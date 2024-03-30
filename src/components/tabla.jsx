@@ -3,9 +3,8 @@ import styles from '../assets/css/Tabla.module.css';
 
 const Tabla = ({ nombreTabla, columnas }) => {
     const [editandoHeaders, setEditandoHeaders] = useState(false);
-    const [nuevosHeaders, setNuevosHeaders] = useState(['id', ...columnas]); // Modificación aquí
+    const [nuevosHeaders, setNuevosHeaders] = useState(['id', ...columnas]);
     const [filas, setFilas] = useState([
-        // Aquí puedes inicializar las filas si lo deseas
         { datos: ['dato1', 'dato2', 'dato3'] }
     ]);
     const [inputHabilitado, setInputHabilitado] = useState(false); // Nuevo estado para controlar si el input está habilitado o no
@@ -15,13 +14,12 @@ const Tabla = ({ nombreTabla, columnas }) => {
 
     const handleEditarHeaders = () => {
         setEditandoHeaders(true);
-        setInputHabilitado(true); // Habilitar el input cuando se hace clic en editar
+        setInputHabilitado(true); // Habilitar el input al hacer clic en editar
     };
 
     const handleGuardarHeaders = () => {
         setEditandoHeaders(false);
-        setInputHabilitado(false); // Deshabilitar el input cuando se guarda
-        // Aquí puedes enviar los nuevos headers a través de una función de callback si es necesario
+        setInputHabilitado(false); // Deshabilitar el input al guardar
     };
 
     const handleChangeHeader = (index, e) => {
@@ -59,7 +57,7 @@ const Tabla = ({ nombreTabla, columnas }) => {
     const handleAgregarFila = () => {
         if (filas.length < 5) {
             const nuevaFila = {
-                datos: nuevosHeaders.map(() => '') // Inicializa los datos con cadenas vacías
+                datos: nuevosHeaders.map(() => '')
             };
             setFilas([...filas, nuevaFila]);
         }
@@ -111,8 +109,8 @@ const Tabla = ({ nombreTabla, columnas }) => {
     
             const jsonString = JSON.stringify(tablaDict, null, 2);
             const sqlString = jsonString
-                .replace(/[{}]/g, '') // Reemplaza tanto '{' como '}' por nada
-                .replace(/\n/g, ''); // Reemplaza los saltos de línea por nada
+                .replace(/[{}]/g, '') // Reemplaza tanto '{' como '}' por ''
+                .replace(/\n/g, ''); // Reemplaza los saltos de línea por ''
             setSQL(sqlString);
         }
         else if(sentenciaSQL.toLowerCase().startsWith('max')){
