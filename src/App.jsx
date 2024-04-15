@@ -12,18 +12,18 @@ function App() {
     const handleCrearTabla = (nombre) => {
         setNombreTabla(nombre);
         setMostrarTabla(true);
-        // Inicializar las columnas aquí si es necesario
-        setColumnas(['Columna 1', 'Columna 2']);
+        // Set default columns
+        setColumnas(['Column 1', 'Column 2']);
     };
 
     useEffect(() => {
         window.addEventListener('scroll', () => {
-            const scrollTop = window.scrollY; // Obtener la posición de desplazamiento vertical
-            const scrollHeight = document.documentElement.scrollHeight - window.innerHeight; // Calcular la altura total de la página
-            const scrolled = (scrollTop / scrollHeight) * 100; // Calcular el porcentaje de desplazamiento
+            const scrollTop = window.scrollY; // Obtain the scroll position
+            const scrollHeight = document.documentElement.scrollHeight - window.innerHeight; // Get the total scroll height
+            const scrolled = (scrollTop / scrollHeight) * 100; // Calculate the percentage of the scroll
 
             const scrollWatcher = document.querySelector('.scroll-watcher');
-            scrollWatcher.style.width = scrolled + '%'; // Establecer el ancho de la barra de desplazamiento según el porcentaje de desplazamiento
+            scrollWatcher.style.width = scrolled + '%'; // Set the width of the scroll watcher
         });
     }, []);
 
