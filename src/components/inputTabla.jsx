@@ -11,27 +11,27 @@ const InputTabla = ({ onCrearTabla }) => {
 
     const handleClick = () => {
         if (/^\d/.test(nombreTabla)) {
-            alert('El nombre de la tabla no puede comenzar con un número.');
+            alert('Table´s name cannot start with a number.');
             return;
         }
 
         if (nombreTabla.includes(' ')) {
-            alert('El nombre de la tabla no puede contener espacios.');
+            alert('Table´s name cannot contain whitespaces.');
             return;
         }
 
         if (nombreTabla.trim() !== '') {
             onCrearTabla(nombreTabla);
-            setTablaCreada(true); // Marcar la tabla como creada
+            setTablaCreada(true); // Set table as created
         }
     };
 
     return (
         <>
-            <h1 className={styles.container}>SQL converter</h1>
+            <h1 className={styles.container}>SQL Converter</h1>
             <div className={styles.container}>
-                <input type="text" placeholder="Nombre de la tabla" value={nombreTabla} onChange={handleChange} className={styles.input} />
-                <button onClick={handleClick} className={styles.button} style={{color:'blue'}}>{tablaCreada ? 'Renombrar Tabla' : 'Crear Tabla'}</button>
+                <input type="text" placeholder="Table name" value={nombreTabla} onChange={handleChange} className={styles.input} />
+                <button onClick={handleClick} className={styles.button} style={{color:'blue'}}>{tablaCreada ? 'Rename table' : 'Create Table'}</button>
             </div>
         </>
     );

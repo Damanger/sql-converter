@@ -28,18 +28,6 @@ function App() {
     }, []);
 
     return (<>
-        <div className="wrap">
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
         <div className="scroll-watcher"></div>
         <div className="App">
             <InputTabla onCrearTabla={handleCrearTabla} />

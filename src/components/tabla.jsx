@@ -5,21 +5,21 @@ const Tabla = ({ nombreTabla, columnas }) => {
     const [editandoHeaders, setEditandoHeaders] = useState(false);
     const [nuevosHeaders, setNuevosHeaders] = useState(['id', ...columnas]);
     const [filas, setFilas] = useState([
-        { datos: ['dato1', 'dato2', 'dato3'] }
+        { datos: ['data1', 'data2', 'data3'] }
     ]);
-    const [inputHabilitado, setInputHabilitado] = useState(false); // Nuevo estado para controlar si el input está habilitado o no
-    const [sentenciaSQL, setSentenciaSQL] = useState(''); // Nuevo estado para almacenar la sentencia SQL
-    const [resultadoSQL, setResultadoSQL] = useState(''); // Nuevo estado para almacenar el resultado de la sentencia SQL
+    const [inputHabilitado, setInputHabilitado] = useState(false); // New state to controll if an input is enable or not
+    const [sentenciaSQL, setSentenciaSQL] = useState(''); // New state to save SQL sentence
+    const [resultadoSQL, setResultadoSQL] = useState(''); // New state ti save the result of the SQL sentence
     const [sql, setSQL] = useState('');
 
     const handleEditarHeaders = () => {
         setEditandoHeaders(true);
-        setInputHabilitado(true); // Habilitar el input al hacer clic en editar
+        setInputHabilitado(true); // Enable input when editing headers
     };
 
     const handleGuardarHeaders = () => {
         setEditandoHeaders(false);
-        setInputHabilitado(false); // Deshabilitar el input al guardar
+        setInputHabilitado(false); // Disable input when saving headers
     };
 
     const handleChangeHeader = (index, e) => {
@@ -94,14 +94,14 @@ const Tabla = ({ nombreTabla, columnas }) => {
 
     const handleGenerarSQL = () => {
         if (!allValuesFilled()) {
-            alert('Por favor, rellene todos los valores en la tabla antes de generar una sentencia SQL.');
+            alert('Please update every row and column with data to generate a SQL sentence.');
             return;
         }
         if (sentenciaSQL.toLowerCase().startsWith('everything')) {
             nuevaSentenciaSQL = `SELECT * FROM ${nombreTabla}`;
-            setResultadoSQL(nuevaSentenciaSQL); // Actualizar el estado con la sentencia SQL generada
+            setResultadoSQL(nuevaSentenciaSQL); // Update the state with the generated SQL sentence
     
-            // Construir el diccionario con los datos de la tabla
+            // Convert the table data to a dictionary
             const tablaDict = {};
             nuevosHeaders.forEach((header, index) => {
                 tablaDict[header] = filas.map(fila => fila.datos[index]);
@@ -109,26 +109,26 @@ const Tabla = ({ nombreTabla, columnas }) => {
     
             const jsonString = JSON.stringify(tablaDict, null, 2);
             const sqlString = jsonString
-                .replace(/[{}]/g, '') // Reemplaza tanto '{' como '}' por ''
-                .replace(/\n/g, ''); // Reemplaza los saltos de línea por ''
+                .replace(/[{}]/g, '') // Delete curly braces
+                .replace(/\n/g, ''); // Replace new lines with empty string
             setSQL(sqlString);
         }
         else if(sentenciaSQL.toLowerCase().startsWith('max')){
-            // Obtener el nombre de la columna
+            // Get the column name from the SQL sentence
             const columnName = sentenciaSQL.split(' ')[1];
-            // Verificar si la columna existe en los headers
+            // Verify if the column exists
             if (nuevosHeaders.includes(columnName)) {
                 nuevaSentenciaSQL = `SELECT MAX(${columnName}) FROM ${nombreTabla}`;
                 const columnData = getColumnData(columnName);
                 const maxValue = Math.max(...columnData);
                 exe = `El valor máximo de ${columnName} es: ${maxValue}`;
-                setResultadoSQL(nuevaSentenciaSQL); // Actualizar el estado con la sentencia SQL generada
-                setSQL(exe); // Mostrar el resultado de la sentencia SQL
+                setResultadoSQL(nuevaSentenciaSQL); // Update the state with the generated SQL sentence
+                setSQL(exe); // Show the result of the SQL sentence
             } else {
-                // Si la columna no existe, muestra un mensaje de error
-                nuevaSentenciaSQL = 'Columna no encontrada';
-                setResultadoSQL(nuevaSentenciaSQL); // Actualizar el estado con la sentencia SQL generada
-                setSQL(''); // Limpiar el estado de SQL
+                // if the column does not exist
+                nuevaSentenciaSQL = 'Column not found';
+                setResultadoSQL(nuevaSentenciaSQL); // Update the state with the generated SQL sentence
+                setSQL(''); // Clear the result of the SQL sentence
             }
         }
     };
@@ -149,7 +149,7 @@ const Tabla = ({ nombreTabla, columnas }) => {
                             nuevosHeaders.map((header, index) => (
                                 <th key={index}>
                                     <input type="text" value={header} style={{display:'flex', textAlign:'center'}} onChange={(e) => handleChangeHeader(index, e)} />
-                                    <button className={styles.button} style={{color:'red'}} onClick={() => handleEliminarColumna(index)} disabled={nuevosHeaders.length <= 1}>Eliminar</button>
+                                    <button className={styles.button} style={{color:'red'}} onClick={() => handleEliminarColumna(index)} disabled={nuevosHeaders.length <= 1}>Delete</button>
                                 </th>
                             ))
                         ) : (
@@ -159,11 +159,11 @@ const Tabla = ({ nombreTabla, columnas }) => {
                         )}
                         <th>
                             {editandoHeaders ? (<>
-                                <button className={styles.button} style={{color:'green'}} onClick={handleGuardarHeaders}>Guardar</button>
-                                <button className={styles.button} style={{color:'mediumseagreen'}} onClick={handleAgregarColumna} disabled={nuevosHeaders.length >= 5}>Agregar Columna</button>
+                                <button className={styles.button} style={{color:'green'}} onClick={handleGuardarHeaders}>Save</button>
+                                <button className={styles.button} style={{color:'mediumseagreen'}} onClick={handleAgregarColumna} disabled={nuevosHeaders.length >= 5}>Add Column</button>
                                 </>
                             ) : (
-                                <button className={styles.button} style={{color:'green'}} onClick={handleEditarHeaders}>Editar</button>
+                                <button className={styles.button} style={{color:'green'}} onClick={handleEditarHeaders}>Edit</button>
                             )}
                         </th>
                     </tr>
@@ -178,7 +178,7 @@ const Tabla = ({ nombreTabla, columnas }) => {
                             ))}
                             <td>
                                 {editandoHeaders && (
-                                    <button className={styles.button} style={{color:'red'}} onClick={() => handleEliminarFila(filaIndex)} disabled={filas.length <= 1}>Eliminar Fila</button>
+                                    <button className={styles.button} style={{color:'red'}} onClick={() => handleEliminarFila(filaIndex)} disabled={filas.length <= 1}>Delete Row</button>
                                 )}
                             </td>
                         </tr>
@@ -187,12 +187,12 @@ const Tabla = ({ nombreTabla, columnas }) => {
             </table>
             <div>
                 {editandoHeaders && (
-                    <button className={styles.button} style={{color:'mediumseagreen'}} onClick={handleAgregarFila} disabled={filas.length >= 5}>Agregar Fila</button>
+                    <button className={styles.button} style={{color:'mediumseagreen'}} onClick={handleAgregarFila} disabled={filas.length >= 5}>Add Row</button>
                 )}
             </div>
             <div style={{margin:'2rem'}}>
                 <input type="text" placeholder="Sentencia SQL" onChange={handleSentenciaSQLChange} />
-                <button className={styles.button} style={{color:'blue'}} onClick={handleGenerarSQL}>Generar SQL</button>
+                <button className={styles.button} style={{color:'blue'}} onClick={handleGenerarSQL}>Generate SQL</button>
             </div>
             <div style={{margin:'2rem'}}>
                 <h3 className={styles.tableContainer}>SQL sentence</h3>
