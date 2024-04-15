@@ -30,7 +30,7 @@ const Tabla = ({ nombreTabla, columnas }) => {
 
     const handleAgregarColumna = () => {
         if (nuevosHeaders.length < 5) {
-            const nuevaColumna = `Columna ${nuevosHeaders.length + 1}`;
+            const nuevaColumna = `Column ${nuevosHeaders.length + 1}`;
             setNuevosHeaders([...nuevosHeaders, nuevaColumna]);
             const nuevasFilas = [...filas];
             nuevasFilas.forEach(fila => fila.datos.push(''));
@@ -121,7 +121,7 @@ const Tabla = ({ nombreTabla, columnas }) => {
                 nuevaSentenciaSQL = `SELECT MAX(${columnName}) FROM ${nombreTabla}`;
                 const columnData = getColumnData(columnName);
                 const maxValue = Math.max(...columnData);
-                exe = `El valor máximo de ${columnName} es: ${maxValue}`;
+                exe = `Max value of ${columnName} is: ${maxValue}`;
                 setResultadoSQL(nuevaSentenciaSQL); // Update the state with the generated SQL sentence
                 setSQL(exe); // Show the result of the SQL sentence
             } else {
@@ -191,16 +191,16 @@ const Tabla = ({ nombreTabla, columnas }) => {
                 )}
             </div>
             <div style={{margin:'2rem'}}>
-                <input type="text" placeholder="Sentencia SQL" onChange={handleSentenciaSQLChange} />
+                <input type="text" placeholder="SQL sentence" onChange={handleSentenciaSQLChange} />
                 <button className={styles.button} style={{color:'blue'}} onClick={handleGenerarSQL}>Generate SQL</button>
             </div>
             <div style={{margin:'2rem'}}>
                 <h3 className={styles.tableContainer}>SQL sentence</h3>
-                <textarea value={resultadoSQL} readOnly placeholder="Resultado SQL" style={{ width: '20rem', height: '3rem', resize: 'none', display:'flex', textAlign:'center', justifyContent:'center'}}></textarea>
+                <textarea value={resultadoSQL} readOnly placeholder="SQL result" style={{ width: '20rem', height: '3rem', resize: 'none', display:'flex', textAlign:'center', justifyContent:'center'}}></textarea>
             </div>
             <div style={{margin:'2rem'}}>
                 <h3 className={styles.tableContainer}>SQL result</h3>
-                <textarea value={sql} readOnly placeholder="Sentencia SQL" style={{ width: '20rem', height: '8rem', resize: 'none', display:'flex', textAlign:'center' }}></textarea>
+                <textarea value={sql} readOnly placeholder="SQL sentence" style={{ width: '20rem', height: '8rem', resize: 'none', display:'flex', textAlign:'center' }}></textarea>
             </div>
         </div>
     );
