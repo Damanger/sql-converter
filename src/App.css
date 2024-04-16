@@ -4,9 +4,9 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 0; /* Por defecto, la barra de desplazamiento está oculta */
+  width: 0;
   z-index: 1000;
-  transition: width 0.3s ease; /* Agregamos una transición para suavizar el cambio de tamaño */
+  transition: width 0.3s ease;
   border-radius: 0.25rem;
 }
 
