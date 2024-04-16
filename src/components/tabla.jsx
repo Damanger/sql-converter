@@ -5,7 +5,7 @@ const Tabla = ({ nombreTabla, columnas }) => {
     const [editandoHeaders, setEditandoHeaders] = useState(false);
     const [nuevosHeaders, setNuevosHeaders] = useState(['id', ...columnas]);
     const [filas, setFilas] = useState([
-        { datos: ['data1', 'data2', 'data3'] }
+        { datos: ['1', 'x', 'y'] }
     ]);
     const [inputHabilitado, setInputHabilitado] = useState(false); // New state to controll if an input is enable or not
     const [resultadoSQL, setResultadoSQL] = useState(''); // New state ti save the result of the SQL sentence
@@ -125,10 +125,32 @@ const Tabla = ({ nombreTabla, columnas }) => {
                     return;
                 }
                 const columnData = getColumnData(columnaSeleccionada);
-                const maxVal = Math.max(...columnData);
-                nuevaSentenciaSQL = `SELECT MAX (${columnaSeleccionada}) FROM ${nombreTabla}`;
-                setResultadoSQL(nuevaSentenciaSQL);
-                setSQL(`MAX value of ${columnaSeleccionada} is: ${maxVal}`);
+                if (opcionSeleccionada.toLowerCase() === 'max value of column'){ // Get the max value of the column
+                    const maxVal = Math.max(...columnData);
+                    nuevaSentenciaSQL = `SELECT MAX (${columnaSeleccionada}) FROM ${nombreTabla}`;
+                    setResultadoSQL(nuevaSentenciaSQL);
+                    setSQL(`MAX value of ${columnaSeleccionada} is: ${maxVal}`);
+                }else if (opcionSeleccionada.toLowerCase() === 'min value of column'){ // Get the min value of the column
+                    const minVal = Math.min(...columnData);
+                    nuevaSentenciaSQL = `SELECT MIN(${columnaSeleccionada}) FROM ${nombreTabla}`;
+                    setResultadoSQL(nuevaSentenciaSQL);
+                    setSQL(`MIN value of ${columnaSeleccionada} is: ${minVal}`);
+                }else if (opcionSeleccionada.toLowerCase() === 'sum of column'){ // Get the sum of the column
+                    const sumVal = columnData.reduce((acc, curr) => acc + curr, 0);
+                    nuevaSentenciaSQL = `SELECT SUM(${columnaSeleccionada}) FROM ${nombreTabla}`;
+                    setResultadoSQL(nuevaSentenciaSQL);
+                    setSQL(`SUM of ${columnaSeleccionada} is: ${sumVal}`);
+                }else if (opcionSeleccionada.toLowerCase() === 'average of column'){ // Get the average of the column
+                    const avgVal = columnData.reduce((acc, curr) => acc + curr, 0) / columnData.length;
+                    nuevaSentenciaSQL = `SELECT AVG(${columnaSeleccionada}) FROM ${nombreTabla}`;
+                    setResultadoSQL(nuevaSentenciaSQL);
+                    setSQL(`AVG of ${columnaSeleccionada} is: ${avgVal}`);
+                }else if (opcionSeleccionada.toLowerCase() === 'count of column'){ // Get the count of the column
+                    const countVal = columnData.length;
+                    nuevaSentenciaSQL = `SELECT COUNT(${columnaSeleccionada}) FROM ${nombreTabla}`;
+                    setResultadoSQL(nuevaSentenciaSQL);
+                    setSQL(`COUNT of ${columnaSeleccionada} is: ${countVal}`);
+                }
                 break;
             default:
                 // Default case
@@ -201,7 +223,7 @@ const Tabla = ({ nombreTabla, columnas }) => {
                     ))}
                 </select>
                 {opcionSeleccionada.toLowerCase().includes('column') && (
-                    <input type='text' placeholder='Enter column name' value={columnaSeleccionada} onChange={(e) => setColumnaSeleccionada(e.target.value)} style={{marginRight:'1rem', marginLeft:'1rem'}}/>
+                    <input type='text' placeholder='Enter column name' value={columnaSeleccionada} onChange={(e) => setColumnaSeleccionada(e.target.value)} style={{marginRight:'1rem', marginLeft:'1rem', textAlign:'center'}}/>
                 )}
                 <button className={styles.button} style={{color:'blue'}} onClick={handleGenerarSQL}>Generate SQL</button>
             </div>
