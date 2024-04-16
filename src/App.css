@@ -9,3 +9,20 @@
   transition: width 0.3s ease; /* Agregamos una transición para suavizar el cambio de tamaño */
   border-radius: 0.25rem;
 }
+
+.custom-floating-icon {
+  background: url('https://raw.githubusercontent.com/Damanger/Portfolio/main/public/Ardilla.webp') no-repeat;
+  width: 40px;
+  height: 40px;
+  background-size: contain;
+}
+
+.rsc-footer input{
+  color: black;
+}
+
+.sc-bxivhb.ipSaXD.rsc-os-option-element {
+  width: auto;
+  padding: 8px 16px;
+  background-color: green;
+}
