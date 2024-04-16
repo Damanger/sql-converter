@@ -8,9 +8,12 @@ const Tabla = ({ nombreTabla, columnas }) => {
         { datos: ['data1', 'data2', 'data3'] }
     ]);
     const [inputHabilitado, setInputHabilitado] = useState(false); // New state to controll if an input is enable or not
-    const [sentenciaSQL, setSentenciaSQL] = useState(''); // New state to save SQL sentence
     const [resultadoSQL, setResultadoSQL] = useState(''); // New state ti save the result of the SQL sentence
     const [sql, setSQL] = useState('');
+    const [opcionSeleccionada, setOpcionSeleccionada] = useState(''); // New state to save the selected option
+    const [columnaSeleccionada, setColumnaSeleccionada] = useState(''); // New state to save the selected column
+
+    const opcionesSelect = ['Everything on table', 'Max value of column', 'Min value of column', 'Sum of column', 'Average of column', 'Count of column'];
 
     const handleEditarHeaders = () => {
         setEditandoHeaders(true);
@@ -51,9 +54,6 @@ const Tabla = ({ nombreTabla, columnas }) => {
         }
     };
 
-    let nuevaSentenciaSQL = '';
-    let exe = '';
-
     const handleAgregarFila = () => {
         if (filas.length < 5) {
             const nuevaFila = {
@@ -87,52 +87,55 @@ const Tabla = ({ nombreTabla, columnas }) => {
         }
         return true;
     };
-    
-    const handleSentenciaSQLChange = (e) => {
-        setSentenciaSQL(e.target.value);
-    };
 
     const handleGenerarSQL = () => {
         if (!allValuesFilled()) {
             alert('Please update every row and column with data to generate a SQL sentence.');
             return;
         }
-        if (sentenciaSQL.toLowerCase().startsWith('everything')) {
-            nuevaSentenciaSQL = `SELECT * FROM ${nombreTabla}`;
-            setResultadoSQL(nuevaSentenciaSQL); // Update the state with the generated SQL sentence
     
-            // Convert the table data to a dictionary
-            const tablaDict = {};
-            nuevosHeaders.forEach((header, index) => {
-                tablaDict[header] = filas.map(fila => fila.datos[index]);
-            });
+        let nuevaSentenciaSQL = '';
     
-            const jsonString = JSON.stringify(tablaDict, null, 2);
-            const sqlString = jsonString
-                .replace(/[{}]/g, '') // Delete curly braces
-                .replace(/\n/g, ''); // Replace new lines with empty string
-            setSQL(sqlString);
-        }
-        else if(sentenciaSQL.toLowerCase().startsWith('max')){
-            // Get the column name from the SQL sentence
-            const columnName = sentenciaSQL.split(' ')[1];
-            // Verify if the column exists
-            if (nuevosHeaders.includes(columnName)) {
-                nuevaSentenciaSQL = `SELECT MAX(${columnName}) FROM ${nombreTabla}`;
-                const columnData = getColumnData(columnName);
-                const maxValue = Math.max(...columnData);
-                exe = `Max value of ${columnName} is: ${maxValue}`;
-                setResultadoSQL(nuevaSentenciaSQL); // Update the state with the generated SQL sentence
-                setSQL(exe); // Show the result of the SQL sentence
-            } else {
-                // if the column does not exist
-                nuevaSentenciaSQL = 'Column not found';
-                setResultadoSQL(nuevaSentenciaSQL); // Update the state with the generated SQL sentence
-                setSQL(''); // Clear the result of the SQL sentence
-            }
+        switch (opcionSeleccionada.toLowerCase()) {
+            case 'everything on table':
+                nuevaSentenciaSQL = `SELECT * FROM ${nombreTabla}`;
+                setResultadoSQL(nuevaSentenciaSQL); 
+                const tablaDict = {};
+                nuevosHeaders.forEach((header, index) => {
+                    tablaDict[header] = filas.map(fila => fila.datos[index]);
+                });
+                const jsonString = JSON.stringify(tablaDict, null, 2);
+                const sqlString = jsonString
+                    .replace(/[{}]/g, '') 
+                    .replace(/\n/g, ''); 
+                setSQL(sqlString);
+                break;
+            case 'max value of column':
+            case 'min value of column':
+            case 'sum of column':
+            case 'average of column':
+            case 'count of column':
+                if(!columnaSeleccionada){
+                    alert('Please select a column to apply the operation.');
+                    return;
+                }
+                const columnaIndex = nuevosHeaders.indexOf(columnaSeleccionada);
+                if (columnaIndex === -1) {
+                    alert('Column not found.');
+                    return;
+                }
+                const columnData = getColumnData(columnaSeleccionada);
+                const maxVal = Math.max(...columnData);
+                nuevaSentenciaSQL = `SELECT MAX (${columnaSeleccionada}) FROM ${nombreTabla}`;
+                setResultadoSQL(nuevaSentenciaSQL);
+                setSQL(`MAX value of ${columnaSeleccionada} is: ${maxVal}`);
+                break;
+            default:
+                // Default case
+                alert('Please select a valid option.');
+                return;
         }
     };
-    
 
     const getColumnData = (columnName) => {
         const columnIndex = nuevosHeaders.indexOf(columnName);
@@ -191,7 +194,15 @@ const Tabla = ({ nombreTabla, columnas }) => {
                 )}
             </div>
             <div style={{margin:'2rem'}}>
-                <input type="text" placeholder="SQL sentence" onChange={handleSentenciaSQLChange} />
+                <select value={opcionSeleccionada} type="text" placeholder="SQL sentence" onChange={(e) => setOpcionSeleccionada(e.target.value)} >
+                    <option value="" disabled defaultValue>Select an option</option>
+                    {opcionesSelect.map((opcion, index) => (
+                        <option key={index} value={opcion}>{opcion}</option>
+                    ))}
+                </select>
+                {opcionSeleccionada.toLowerCase().includes('column') && (
+                    <input type='text' placeholder='Enter column name' value={columnaSeleccionada} onChange={(e) => setColumnaSeleccionada(e.target.value)} style={{marginRight:'1rem', marginLeft:'1rem'}}/>
+                )}
                 <button className={styles.button} style={{color:'blue'}} onClick={handleGenerarSQL}>Generate SQL</button>
             </div>
             <div style={{margin:'2rem'}}>
