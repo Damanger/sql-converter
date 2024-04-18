@@ -69,4 +69,4 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 # sql-converter
-![Texto Alternativo]([url_de_la_imagen](https://raw.githubusercontent.com/Damanger/Portfolio/main/public/sql.webp))
+![Página web](https://raw.githubusercontent.com/Damanger/Portfolio/main/public/sql.webp)
